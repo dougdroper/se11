@@ -1,0 +1,88 @@
+{
+  "id": "root",
+  "context": {
+    "questions": [{
+      "name": "postcode",
+      "text": "What is your postcode",
+      "type": "Postcode"
+    }]
+  },
+  "states": {
+    "Idle": {
+      "id": "Idle",
+      "states": {},
+      "on": {
+        "start": "#AgeAndPostcode"
+      }
+    },
+    "AgeAndPostcode": {
+      "id": "AgeAndPostcode",
+      "context": {
+        "questions": [{
+          "name": "postcode",
+          "text": "What is your postcode",
+          "type": "Postcode"
+        }]
+      },
+      "meta": {
+        "path": "/age-and-postcode",
+        "questions": [{
+          "name": "postcode",
+          "text": "What is your postcode",
+          "type": "Postcode"
+        }]
+      },
+      "states": {
+        "answering_questions": {
+          "id": "questions",
+          "states": {},
+          "on": {
+            "finished": "valid?"
+          }
+        },
+        "valid?": {
+          "id": "valid?",
+          "states": {},
+          "entry": ["log"],
+          "on": {
+            "allValid": {
+              "target": "#YourKit"
+            },
+            "invalid": "#questions",
+            "outsideRegion": "#Kickout",
+            "overAge": "#KickoutOverAge",
+            "overQuota": "#Kickout",
+            "underAge": "#Kickout"
+          }
+        }
+      },
+      "initial": "answering_questions",
+      "on": {}
+    },
+    "Kickout": {
+      "id": "Kickout",
+      "states": {}
+    },
+    "KickoutOverAge": {
+      "id": "KickoutOverAge",
+      "states": {}
+    },
+    "YourKit": {
+      "id": "YourKit",
+      "meta": {
+        "path": "/your-kit"
+      },
+      "initial": "yourKitIdle",
+
+      "states": {
+        "yourKitIdle": {
+          "on": {
+            "back": "#AgeAndPostcode"
+          }
+        }
+      }
+    }
+  },
+  "initial": "Idle",
+  "on": {}
+}
